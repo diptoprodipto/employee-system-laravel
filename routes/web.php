@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/attendance', [AttendanceController::class, 'index']);
-Route::post('/attendance/save', [AttendanceController::class, 'store']);
-Route::post('/attendance/saveall', [AttendanceController::class, 'store_all']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
