@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/attendance', [AttendanceController::class, 'index']);
-Route::post('/attendance/save', [AttendanceController::class, 'store']);
-Route::post('/attendance/saveall', [AttendanceController::class, 'store_all']);
+// Route::post('/', [AuthenticatedSessionController::class, 'store']);
+
+Route::get('/employee', [EmployeeController::class, 'index'])->middleware(['auth', 'prevent-back-history']);
+Route::post('/employee', [EmployeeController::class, 'store'])->middleware(['auth', 'prevent-back-history']);
+Route::get('/employee/{id}', [EmployeeController::class, 'edit'])->middleware(['auth', 'prevent-back-history'])->name('employee.edit');
+Route::delete('/employee/{id}', [EmployeeController::class, 'destroy'])->middleware(['auth', 'prevent-back-history'])->name('employee.delete');
+
+Route::get('/attendance', [AttendanceController::class, 'index'])->middleware(['auth', 'prevent-back-history']);
+Route::post('/attendance/save', [AttendanceController::class, 'store'])->middleware(['auth', 'prevent-back-history']);
+Route::post('/attendance/saveall', [AttendanceController::class, 'store_all'])->middleware(['auth', 'prevent-back-history']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
