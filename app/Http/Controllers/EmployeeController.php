@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use Exception;
 
 class EmployeeController extends Controller
 {
@@ -47,8 +48,16 @@ class EmployeeController extends Controller
     }
 
     public function destroy($id) {
-        $employee = Employee::find($id);
-        $employee->delete();
-        return redirect('/employee');
+        try {
+            $employee = Employee::find($id);
+            $employee->delete();
+            return response()->json([
+                'message' => 'success'
+            ]);
+        } catch(Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage() 
+            ]);
+        }
     }
 }

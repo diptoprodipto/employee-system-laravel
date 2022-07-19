@@ -41,12 +41,12 @@
                 </div>
                 <div class="col-lg-3">
                     Status:<br>
-                    <input type="radio" id="not-resigned" name="status" onclick="checkStatus(this);" value="0" checked />Not Resigned
-                    <input type="radio" id="resigned" name="status" onclick="checkStatus(this);" value="1" />Resigned
+                    <input type="radio" id="not-resigned" name="status" onclick="checkStatus(this)" value="0" checked />Not Resigned
+                    <input type="radio" id="resigned" name="status" onclick="checkStatus(this)" value="1" />Resigned
                 </div>
                 <div class="col-lg-3">
                     Resignation Date:<br>
-                    <input type="datetime-local" id="resignation_date" name="resignation_date" />
+                    <input type="datetime-local" id="resignation_date" name="resignation_date" disabled/>
                 </div>
                 <div class="col-lg-3">
                     Password:<br>
@@ -91,11 +91,12 @@
                     <td>{{ $employee->status }}</td>
                     <td>{{ $employee->resignation_date }}</td>
                     <td><a class="btn btn-info" href={{ route('employee.edit', ['id' => $employee->id]) }}>Edit</a>&nbsp;
-                    <form style="display:inline" action={{ route('employee.delete', ['id' => $employee->id]) }} method="POST">
+                    <!-- <form style="display:inline" action={{ route('employee.delete', ['id' => $employee->id]) }} method="POST">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                        <button type="submit" onclick="deleteRecordAlert(this)" class="btn btn-danger">Delete</button>
+                    </form> -->
+                        <button id={{$employee->id}} onclick="deleteRecordAlert(this)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
             @endforeach

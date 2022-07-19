@@ -41,7 +41,7 @@ class AttendanceController extends Controller
                 ['date' => $date, 'working_status' => $working_status]
             );
             return response()->json([
-                'message' => 'Success'
+                'message' => 'success'
             ]);
         } catch(Exception $e) {
             return response()->json([
@@ -53,16 +53,17 @@ class AttendanceController extends Controller
     public function store_all(Request $request) {
         $today_date = date('Y-m-d');
         try {
-            $data = $request->input('tableData');
+            $tableData = $request->input('tableData');
 
-            foreach ($data as $value) {
-                Attendance::upsert(
-                    $value, [$value['employee_id'], $today_date], ['employee_id', 'date', 'working_status']
+            foreach ($tableData as $data) {
+                Attendance::updateOrCreate(
+                    ['employee_id' => $data['employee_id'], 'date' => $today_date],
+                    ['working_status' => $data['working_status']]
                 );
             }
             
             return response()->json([
-                'tableData' => 'updated or inserted'
+                'message' => 'success'
             ]);
         } catch(Exception $e) {
             return response()->json([
